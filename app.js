@@ -48,8 +48,8 @@ var staticDir = pathParser.join(__dirname, 'public');
     configApp();
     /*使用自定义指定路由中间件*/
     useCustomeMidwares();
-    /*设置app助手*/
-    setupAppHelpers();
+    /*设置静态视图助手*/
+    setupViewHelpers();
     /*配置开发环境*/
     configDevEnv();
     /*配置生成环境*/
@@ -64,7 +64,9 @@ var staticDir = pathParser.join(__dirname, 'public');
     startDemon();
 })();
 
-function ____静态资源____() {}//
+function ____静态资源____()
+{
+}//
 var assets = {};
 
 /***
@@ -72,7 +74,7 @@ var assets = {};
  ***/
 function loadStaticAssets()
 {
-    if (AppConfig.mini_assets)
+    if (AppConfig.mini_assets)//如若合并资源的话,尝试读取合并后的资产json
     {
         try
         {
@@ -116,18 +118,20 @@ function registerTempEngine()
  ***/
 function usePreMidwares()
 {
-    app.use(express.compress());
-    app.use(express.favicon());
-    app.use(express.query());
-    app.use(express.bodyParser({uploadDir: "./uploads"}));
-
-    app.use(express.cookieParser());
-    app.use(express.session({
-        secret: AppConfig.session_secret,
-        cookie: {
-            maxAge: 30 * 60 * 1000      //ms
+    app.use(express.compress());//压缩特性
+    app.use(express.favicon());//首页图标
+    app.use(express.query());//查询字符串解析
+    app.use(express.bodyParser({uploadDir: "./uploads"}));//内容体解析器，uploadDir文件上传路径
+    app.use(express.cookieParser());//cookie解析器
+    var sessOpts =//
+        {
+            secret: AppConfig.session_secret,//会话秘钥
+            cookie://
+                {
+                    maxAge: 30 * 60 * 1000      //ms
+                }
         }
-    }));
+    app.use(express.session(sessOpts));//使用会话中间件
 }
 
 /***
@@ -139,15 +143,17 @@ function useCustomeMidwares()
 }
 
 /***
- *设置app助手
+ *设置静态视图助手
  ***/
-function setupAppHelpers()
+function setupViewHelpers()
 {
-    app.helpers({
-        config: AppConfig,
-        Loader: Loader,
-        assets: assets
-    });
+    var staticViewOpts =//
+        {
+            config: AppConfig,
+            Loader: Loader,
+            assets: assets
+        }
+    app.helpers(staticViewOpts);
 }
 
 /***
@@ -157,11 +163,10 @@ function configDevEnv()
 {
     app.configure('development', function ()
     {
-        app.use(express.logger());
-        app.use("/public", express.static(staticDir));
-        app.use(express.errorHandler(
-            {showStack: true, dumpException: true}
-        ));
+        app.use(express.logger());//日志
+        app.use("/public", express.static(staticDir));//静态资源路径
+        var errHandlerOpts={showStack: true, dumpException: true};
+        app.use(express.errorHandler(errHandlerOpts));//使用全局错误处理中间件
     });
 }
 
@@ -172,9 +177,9 @@ function configProEnv()
 {
     app.configure("production", function ()
     {
-        app.use('/public', express.static(staticDir, {maxAge: maxAge}));
+        app.use('/public', express.static(staticDir, {maxAge: maxAge}));//带缓存日志的静态文件
         app.use(express.errorHandler());
-        app.set('view cache', true);
+        app.set('view cache', true);//使用视图缓存
     });
 }
 
