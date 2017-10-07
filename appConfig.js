@@ -23,50 +23,49 @@
   Desc: define app config info
  */
 
-var path = require("path");
+/***
+ *应用配置文件
+ ***/
+var pathParser = require("path");
 
-exports.config = {
-    debug               : true,
-    name                : "资产管理系统",
-    giftname            : "礼物管理系统",
-    description         : "Fixed Asset Manager",
-    version             : "0.0.1",
+exports.config =//
+    {
+        debug: true,
+        name: "资产管理系统",
+        giftname: "礼物管理系统",
+        description: "Fixed Asset Manager",
+        version: "0.0.1",
 
-    port                : 8088,
+        port: 8088,//监听端口
 
-    site_headers        : [
-        '<meta name="author" content="freedom" />',
-    ],
+        //网站头
+        site_headers: ['<meta name="author" content="freedom" />'],
+        //静态主机
+        site_static_host: "",
+        mini_assets: true,//是否合并静态资源
+        session_secret: "Fixed_Asset_0987654321",//会话秘钥
 
-    site_static_host    : "",
-    mini_assets         : true,
+        mail_opts://邮件配置
+            {
+                host: "smtp.163.com",
+                port: 25,
+                auth: //
+                    {
+                        user: "wisasset@163.com",
+                        pass: "adminn"
+                    }
+            },
 
-    session_secret      : "Fixed_Asset_0987654321",
+        mailDefault_TO://默认邮件地址
+            [
+                "huayang@wisedu.com",
+                "zcliu@wisedu.com"
+            ],
 
-    mail_opts           : {
-        host  : "smtp.163.com",
-        port  : 25,
-        auth  : {
-            user  : "wisasset@163.com",
-            pass  : "adminn"
-        }
-    },
+        networkIsOk: 1,//网络标记
 
-    mailDefault_TO      : [
-        "huayang@wisedu.com",
-        "zcliu@wisedu.com"
-    ],
-
-    networkIsOk         : 1,
-
-    //five field: ss mm hh dd MM day-of-week
-    // * - match all
-    // / - pre field
-    // eg : "00 00 9 */7 *" means run once every 7 days at 9:00 am
-    limitCronPattern         : "00 00 10 * * 1-5",
-
-    backupCronPattern        : "00 00 23 * * *",
-
-    backupPushCronPattern    : "00 30 23 */3 * *"
-
-};
+        /*守护模式*/
+        limitCronPattern: "00 00 10 * * 1-5",
+        backupCronPattern: "00 00 23 * * *",
+        backupPushCronPattern: "00 30 23 */3 * *"
+    };

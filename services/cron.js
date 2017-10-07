@@ -22,29 +22,32 @@
   Desc: the service of cron
  */
 
-var cronJob     = require('cron').CronJob;
-var xlsx        = require("node-xlsx");
+var cronJob = require('cron').CronJob;
+var xlsx = require("node-xlsx");
 var mailService = require("./mail");
-var Limitation  = require("../proxy/limitation");
-var exec        = require("child_process").exec;
-var util        = require("../libs/util");
-var path        = require("path");
-var config      = require("../config").initConfig();
+var Limitation = require("../proxy/limitation");
+var exec = require("child_process").exec;
+var util = require("../libs/util");
+var path = require("path");
+var config = require("../config").initConfig();
 
 /**
  * start e-mail notification for gift limitation
  * @param  {Function} callback the cb func
- * @return {null}            
+ * @return {null}
  */
-exports.startLimatationMailNotification = function (cronPattern, callback) {
+exports.startLimatationMailNotification = function (cronPattern, callback)
+{
     debugService("/services/cron/startLimatationMailNotification");
     var cp = cronPattern || "00 00 10 * * 1-5";
 
-    var job = cronGenerator(cp, function() {
-        generateGiftLimitationExcel(function (buffer) {
+    var job = cronGenerator(cp, function ()
+    {
+        generateGiftLimitationExcel(function (buffer)
+        {
             mailService.sendMail({
-                subject : "Gift limitation notification",
-                attachments : [
+                subject: "Gift limitation notification",
+                attachments: [
                     {
                         fileName: "giftLimitationNotification.xlsx",
                         contents: buffer
@@ -61,22 +64,26 @@ exports.startLimatationMailNotification = function (cronPattern, callback) {
  * start db backup service
  * @param  {String}   cronPattern the cron job pattern
  * @param  {Function} callback    the cb func
- * @return {null}               
+ * @return {null}
  */
-exports.startDBBackupService = function (cronPattern, callback) {
+exports.startDBBackupService = function (cronPattern, callback)
+{
     debugService("/services/cron/startDBBackupService");
 
     var cp = cronPattern || "00 00 23 * * *";
 
-    var job = cronGenerator(cp, function() {
+    var job = cronGenerator(cp, function ()
+    {
         var backupFile = path.resolve(__dirname, "../backup/", new Date().Format("yyyy_MM_dd") + ".sql");
         var cmd = "mysqldump -h{0} -u{1} -p{2} fixedAsset > {3}".format(config.mysqlConfig.host,
-                                                                        config.mysqlConfig.user,
-                                                                        config.mysqlConfig.password,
-                                                                        backupFile);
+            config.mysqlConfig.user,
+            config.mysqlConfig.password,
+            backupFile);
 
-        exec(cmd, function (err, stdout, stderr) {
-            if (err) {
+        exec(cmd, function (err, stdout, stderr)
+        {
+            if (err)
+            {
                 debugService(err);
             }
 
@@ -91,17 +98,19 @@ exports.startDBBackupService = function (cronPattern, callback) {
  * start push db back up file with mail service
  * @param  {String}   cronPattern the cron job pattern
  * @param  {Function} callback    the cb func
- * @return {null}               
+ * @return {null}
  */
-exports.startPushDBBackupFileService = function (cronPattern, callback) {
+exports.startPushDBBackupFileService = function (cronPattern, callback)
+{
     debugService("/services/cron/startPushDBBackupFileService");
 
     var cp = cronPattern || "00 30 23 */3 * *";
-    var job = cronGenerator(cp, function () {
+    var job = cronGenerator(cp, function ()
+    {
         var backupFile = path.resolve(__dirname, "../backup/", new Date().Format("yyyy_MM_dd") + ".sql");
         mailService.sendMail({
-            subject : "DB backup Mail",
-            attachments : [
+            subject: "DB backup Mail",
+            attachments: [
                 {
                     filePath: backupFile
                 }
@@ -118,7 +127,8 @@ exports.startPushDBBackupFileService = function (cronPattern, callback) {
  * @param  {Function} doSomething the job func
  * @return {Object}             the real cron job obj
  */
-function cronGenerator (cronPattern, doSomething) {
+function cronGenerator(cronPattern, doSomething)
+{
     var cp = cronPattern || "00 00 10 * * 1-5";
     var job = new cronJob({
         cronTime: cp,
@@ -133,25 +143,29 @@ function cronGenerator (cronPattern, doSomething) {
 /**
  * generate gift limitation excel
  * @param  {Function} callback the cb func
- * @return {null}            
+ * @return {null}
  */
-function generateGiftLimitationExcel (callback) {
+function generateGiftLimitationExcel(callback)
+{
     debugService("/services/cron/generateGiftLimitationExcel");
 
-    Limitation.getUnderLimatationGifts(function (items) {
-        if (items) {
+    Limitation.getUnderLimatationGifts(function (items)
+    {
+        if (items)
+        {
             var schema = {
-                              worksheets: [
-                                  {
-                                      "name" : "礼品剩余数量提醒",
-                                      "data" : [
-                                         ["礼品名称", "品牌", "价格", "剩余库存数量", "警戒线"]
-                                      ]
-                                  }
-                              ]
-                        };
+                worksheets: [
+                    {
+                        "name": "礼品剩余数量提醒",
+                        "data": [
+                            ["礼品名称", "品牌", "价格", "剩余库存数量", "警戒线"]
+                        ]
+                    }
+                ]
+            };
 
-            for (var i = 0; i < items.length; i++) {
+            for (var i = 0; i < items.length; i++)
+            {
                 var item = items[i];
                 var arr = [];
                 arr.push(item.name);
