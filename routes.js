@@ -27,27 +27,28 @@
  routes - the router of url request
  */
 
-var user              = require("./controllers/user");
-var fixedAsset        = require("./controllers/fixedAsset");
+var user = require("./controllers/user");
+var fixedAsset = require("./controllers/fixedAsset");
 var fixedAssetHistory = require("./controllers/fixedAssetHistory");
-var faType            = require("./controllers/faType");
-var department        = require("./controllers/department");
-var others            = require("./controllers/others");
-var login             = require("./controllers/login");
-var logout            = require("./controllers/logout");
-var company           = require("./controllers/company");
-var authUser          = require("./controllers/authUser");
+var faType = require("./controllers/faType");
+var department = require("./controllers/department");
+var others = require("./controllers/others");
+var login = require("./controllers/login");
+var logout = require("./controllers/logout");
+var company = require("./controllers/company");
+var authUser = require("./controllers/authUser");
 
-var giftCategory      = require("./controllers/giftCategory");
-var stockInType       = require("./controllers/stockInType");
-var gift              = require("./controllers/gift");
-var paymentType       = require("./controllers/paymentType");
-var stockIn           = require("./controllers/stockIn");
-var stockOut          = require("./controllers/stockOut");
-var inventory         = require("./controllers/inventory");
-var limitation        = require("./controllers/limitation");
+var giftCategory = require("./controllers/giftCategory");
+var stockInType = require("./controllers/stockInType");
+var gift = require("./controllers/gift");
+var paymentType = require("./controllers/paymentType");
+var stockIn = require("./controllers/stockIn");
+var stockOut = require("./controllers/stockOut");
+var inventory = require("./controllers/inventory");
+var limitation = require("./controllers/limitation");
 
-module.exports = function (app) {
+module.exports = function (app)
+{
 
     /************************************************************************/
     /*                Resful: URI Represent a Resource!!!                   */
@@ -72,8 +73,8 @@ module.exports = function (app) {
     app.post("/fixedasset/import/company/:companyId", fixedAsset.importFA);
     app.get("/fixedasset/batchCreate", fixedAsset.batchCreate);
     app.get("/fixedasset/excelExport/:companyId", fixedAsset.exportExcel);
-    app.get("/addUser",login.addUser);
-    app.get("/editpwd",login.editpwd);
+    app.get("/addUser", login.addUser);
+    app.get("/editpwd", login.editpwd);
 
     //apis
     app.get("/user/:userId", user.getUserById);
@@ -87,7 +88,7 @@ module.exports = function (app) {
     app.get("/companies", company.companies);
     app.get("/fixedasset/conditionInfo", fixedAsset.conditionInfo);
     app.post("/fixedasset/retrieve", fixedAsset.retrieve);
-    app.get("/fixedasset/getUserId/:userName",fixedAsset.getUserIdByUserName);
+    app.get("/fixedasset/getUserId/:userName", fixedAsset.getUserIdByUserName);
     app.get("/onlineusers", authUser.onlineUsers);
     app.get("/operaterecords", fixedAssetHistory.operateRecordForwardASession);
 
@@ -137,7 +138,7 @@ module.exports = function (app) {
     app.post("/stockout/insertion", stockOut.insertion);
     app.post("/stockout/modification", stockOut.modification);
     app.post("/stockout/deletion", stockOut.deletion);
-    app.get("/stockout/export",stockOut.exportSO);
+    app.get("/stockout/export", stockOut.exportSO);
 
     app.get("/limitations", limitation.limitations);
     app.post("/limitation/insertion", limitation.insertion);
@@ -145,8 +146,8 @@ module.exports = function (app) {
     app.post("/limitation/deletion", limitation.deletion);
 
     app.post("/inventories", inventory.inventories);
-    app.get("/inventory/export",inventory.exportInv);
-    
+    app.get("/inventory/export", inventory.exportInv);
+
     app.get("/manualinputdepts", department.allManualInputDepts);
     app.get("/suppliers", stockIn.suppliers);
 

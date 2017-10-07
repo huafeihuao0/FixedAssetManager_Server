@@ -23,40 +23,56 @@
   Desc: mail - the service of mail
  */
 
-var mailer    = require("nodemailer");
+var mailer = require("nodemailer");
 var appConfig = require("../appConfig").config;
-
+//创建发送器
 var transport = mailer.createTransport("SMTP", appConfig.mail_opts);
 
 /**
- * send mail
- * @param  {object} mailObj the instance of mail
- * mail object like :
- * {
- *   from : xxx
- *   to   : xxx
- *   subject : xxx
- *   text/html : xxx
- * }
- * @return {null}         
+ * 发送邮件
+ * @param  {object} mailOpts 邮件参数
+ * @return {null}
  */
-exports.sendMail = function (mailObj) {
+function sendMail(mailOpts)
+{
     debugService("/services/mail/sendMail");
-    if (!mailObj.hasOwnProperty("from")) {
-        mailObj.from = appConfig.mail_opts.auth.user;
-    }
-
-    //if there is no property then use default
-    if (!mailObj.hasOwnProperty("to")) {
-        mailObj.to = appConfig.mailDefault_TO.join(",");
-    }
+    /*检查发送地址*/
+    mCheckFromAddr(mailOpts);
+    /*检查目标地址*/
+    mCheckToAddr(mailOpts);
 
     debugService("sending mail .....");
 
-    transport.sendMail(mailObj, function (err) {
-        if (err) {
+    transport.sendMail(mailOpts, function onBack(err)//失败或成功后回调
+    {
+        if (err)
+        {
             console.log("mail error:");
             console.log(err);
         }
     });
 };
+
+/***
+ *检查发送地址
+ ***/
+function mCheckFromAddr(mailOpts)
+{
+    if (!mailOpts.hasOwnProperty("from"))
+    {
+        mailOpts.from = appConfig.mail_opts.auth.user;
+    }
+}
+
+/***
+ *检查目标地址
+ ***/
+function mCheckToAddr(mailOpts)
+{
+    if (!mailOpts.hasOwnProperty("to"))
+    {
+        mailOpts.to = appConfig.mailDefault_TO.join(",");
+    }
+}
+
+exports.sendMail = sendMail;

@@ -25,11 +25,12 @@
 
 var fs = require("fs");//fs文件服务
 var pathParser = require("path");//路径解析
+var Loader = require("loader");//loader静态
 var express = require("express");
+
 var routes = require("./routes");//路由
 var common = require("./common/Error");//通用模块
 var AppConfig = require("./appConfig").config;//应用配置脚本
-var Loader = require("loader");//loader静态
 var errorHandler = require("./common/errorHandler");//错误处理器
 var cronService = require("./services/cron");
 
@@ -60,8 +61,8 @@ var staticDir = pathParser.join(__dirname, 'public');
     routes(app);
     //启动监听
     startListening();
-    /*启动守护进程*/
-    startDemon();
+    /*启动定时守护进程*/
+    startCronDemon();
 })();
 
 function ____静态资源____()
@@ -194,9 +195,9 @@ function startListening()
 
 //start deamon services
 /***
- *启动守护进程
+ *启动定时守护进程
  ***/
-function startDemon()
+function startCronDemon()
 {
     cronService.startLimatationMailNotification(AppConfig.limitCronPattern);
     cronService.startDBBackupService(AppConfig.backupCronPattern);
