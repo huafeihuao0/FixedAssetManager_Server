@@ -126,7 +126,7 @@ exports.signIn = function (req, res, next) {
             var ep = EventProxy.create();
             AuthUser.modifyLastLoginTime({
                 uid           : req.session.user.userId,
-                lastLoginTime : new Date().Format("yyyy-MM-dd hh:mm:ss")
+                lastLoginTime : new Date().format("yyyy-MM-dd hh:mm:ss")
             }, function (err, row) {
                 if (err) {
                     return ep.emitLater("error", err);

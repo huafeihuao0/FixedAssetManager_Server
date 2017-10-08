@@ -77,7 +77,7 @@ exports.add = function (stockOutInfo, callback) {
 
     stockOutInfo.soId = util.GUID();
     if (!stockOutInfo.soDate) {
-        stockOutInfo.soDate = new Date().Format("yyyy-MM-dd");
+        stockOutInfo.soDate = new Date().format("yyyy-MM-dd");
     }
 
     sql = "INSERT INTO STOCKOUT VALUES(:soId,         " +
@@ -126,7 +126,7 @@ exports.modify = function (stockOutInfo, callback) {
           "WHERE soId = :soId                               ";
 
     if (!stockOutInfo.soDate) {
-        stockOutInfo.soDate = new Date().Format("yyyy-MM-dd");
+        stockOutInfo.soDate = new Date().format("yyyy-MM-dd");
     }
 
     mysqlClient.query({

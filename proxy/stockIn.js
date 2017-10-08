@@ -89,7 +89,7 @@ exports.add = function(stockInInfo, callback) {
 
     stockInInfo.siId = util.GUID();
     if (!stockInInfo.siDate) {
-        stockInInfo.siDate = new Date().Format("yyyy-MM-dd");
+        stockInInfo.siDate = new Date().format("yyyy-MM-dd");
     }
 
     mysqlClient.query({
@@ -129,7 +129,7 @@ exports.modify = function(stockInInfo, callback) {
         "WHERE siId = :siId                       ";
 
     if (!stockInInfo.siDate) {
-        stockInInfo.siDate = new Date().Format("yyyy-MM-dd");
+        stockInInfo.siDate = new Date().format("yyyy-MM-dd");
     }
 
     mysqlClient.query({

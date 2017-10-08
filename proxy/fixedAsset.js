@@ -240,7 +240,7 @@ exports.rejectFixedAsset = function(rejectionInfo, callback) {
     var rejectionObj = {};
     rejectionObj.newId = rejectionInfo.faId;
     rejectionObj.reject = rejectionInfo.reject;
-    rejectionObj.rejectDate = new Date().Format("yyyy-MM-dd");
+    rejectionObj.rejectDate = new Date().format("yyyy-MM-dd");
 
     mysqlClient.query({
         sql: "UPDATE ASSETS SET reject=:reject, rejectDate=:rejectDate WHERE newId = :newId",
@@ -422,7 +422,7 @@ exports.addFixedAsset = function(faDetailObj, callback) {
 exports.allocateFixedAsset = function(allocatingObj, callback) {
     debugProxy("proxy/fixedAsset/allocateFixedAsset");
 
-    allocatingObj.possessDate = new Date().Format("yyyy-MM-dd");
+    allocatingObj.possessDate = new Date().format("yyyy-MM-dd");
 
     console.log(allocatingObj);
 

@@ -399,13 +399,13 @@ exports.exportSI = function(req, res, next) {
         var result = nodeExcel.execute(conf);
         var fileTitle = "StockIn_";
         res.setHeader('Content-Type', 'application/vnd.openxmlformats');
-        res.setHeader("Content-Disposition", "attachment; filename= " + fileTitle + (new Date().Format("yyyy-MM-dd")) + ".xlsx");
+        res.setHeader("Content-Disposition", "attachment; filename= " + fileTitle + (new Date().format("yyyy-MM-dd")) + ".xlsx");
         res.end(result, 'binary');
     });
     function dataHandler (dataStr) {
         if (dataStr) {
             if ((dataStr+"").indexOf("0000") < 0) {
-                return (new Date(dataStr)).Format("yyyy-MM-dd");
+                return (new Date(dataStr)).format("yyyy-MM-dd");
             }
             return "";
         }else{

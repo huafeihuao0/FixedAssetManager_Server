@@ -170,7 +170,7 @@ exports.rejection = function (req, res, next) {
         historyRecord.userId = faInfo.faDetail.userId;
         historyRecord.aeDesc = "";
         historyRecord.operateId = req.session.user ? req.session.user.userId : "mobile";
-        historyRecord.aeTime = new Date().Format("yyyy-MM-dd hh:mm:ss");
+        historyRecord.aeTime = new Date().format("yyyy-MM-dd hh:mm:ss");
 
         FAHistory.insertHistoryRecord(historyRecord, function (err, data) {
             if (err) {
@@ -231,7 +231,7 @@ exports.insertion = function (req, res, next) {
         historyRecord.userId = faInfo.faDetail.userId;
         historyRecord.aeDesc = "";
         historyRecord.operateId = req.session.user ? req.session.user.userId : "mobile";
-        historyRecord.aeTime = new Date().Format("yyyy-MM-dd hh:mm:ss");
+        historyRecord.aeTime = new Date().format("yyyy-MM-dd hh:mm:ss");
 
         FAHistory.insertHistoryRecord(historyRecord, function (err, data) {
             if (err) {
@@ -301,7 +301,7 @@ exports.recycle = function (req, res, next) {
         historyRecord.userId = userId;
         historyRecord.aeDesc = "";
         historyRecord.operateId = req.session.user ? req.session.user.userId : "mobile";
-        historyRecord.aeTime = new Date().Format("yyyy-MM-dd hh:mm:ss");
+        historyRecord.aeTime = new Date().format("yyyy-MM-dd hh:mm:ss");
 
         FAHistory.insertHistoryRecord(historyRecord, function (err, data) {
             if (err) {
@@ -385,7 +385,7 @@ exports.modification = function (req, res, next) {
         historyRecord.userId = userId;
         historyRecord.aeDesc = "";
         historyRecord.operateId = req.session.user ? req.session.user.userId : "mobile";
-        historyRecord.aeTime = new Date().Format("yyyy-MM-dd hh:mm:ss");
+        historyRecord.aeTime = new Date().format("yyyy-MM-dd hh:mm:ss");
 
         FAHistory.insertHistoryRecord(historyRecord, function (err, data) {
             if (err) {
@@ -478,7 +478,7 @@ exports.allocation = function (req, res, next) {
         historyRecord.userId = userId;
         historyRecord.aeDesc = "";
         historyRecord.operateId = req.session.user ? req.session.user.userId : "mobile";
-        historyRecord.aeTime = new Date().Format("yyyy-MM-dd hh:mm:ss");
+        historyRecord.aeTime = new Date().format("yyyy-MM-dd hh:mm:ss");
 
         FAHistory.insertHistoryRecord(historyRecord, function (err, data) {
             if (err) {
@@ -573,8 +573,8 @@ exports.printService = function (req, res, next) {
         timefrom = parseFloat(timefrom);
         timeto   = parseFloat(timeto);
         
-        timefrom = new Date(timefrom).Format("yyyy-MM-dd");
-        timeto   = new Date(timeto).Format("yyyy-MM-dd");
+        timefrom = new Date(timefrom).format("yyyy-MM-dd");
+        timeto   = new Date(timeto).format("yyyy-MM-dd");
     }
 
     FixedAsset.getqrCodeByPageIndex(pageIndex, timefrom, timeto, function (err, rows) {
@@ -993,14 +993,14 @@ exports.exportExcel = function (req, res, next) {
         }
 
         res.setHeader('Content-Type', 'application/vnd.openxmlformats');
-        res.setHeader("Content-Disposition", "attachment; filename= "+fileTitle + (new Date().Format("yyyy-MM-dd"))+".xlsx");
+        res.setHeader("Content-Disposition", "attachment; filename= "+fileTitle + (new Date().format("yyyy-MM-dd"))+".xlsx");
         res.end(result, 'binary');
     });
 
     function dataHandler (dataStr) {
         if (dataStr) {
             if (dataStr != "0000-00-00") {
-                return (new Date(dataStr)).Format("yyyy-MM-dd hh:mm:ss");
+                return (new Date(dataStr)).format("yyyy-MM-dd hh:mm:ss");
             }
             return "";
         }else{

@@ -88,14 +88,14 @@ exports.operateRecordForwardASession = function (req, res, next) {
         if (!userInfo.lastLoginTime) {
             var st = new Date();
             st.setMinutes(st - 30);                       //default use a session time section
-            timeQueryConditions.startTime = st.Format("yyyy-MM-dd hh:mm:ss");
+            timeQueryConditions.startTime = st.format("yyyy-MM-dd hh:mm:ss");
         } else {
-            timeQueryConditions.startTime = new Date(userInfo.lastLoginTime).Format("yyyy-MM-dd hh:mm:ss");
+            timeQueryConditions.startTime = new Date(userInfo.lastLoginTime).format("yyyy-MM-dd hh:mm:ss");
         }
 
         debugCtrller("startTime is %s", timeQueryConditions.startTime);
 
-        timeQueryConditions.endTime = new Date().Format("yyyy-MM-dd hh:mm:ss");
+        timeQueryConditions.endTime = new Date().format("yyyy-MM-dd hh:mm:ss");
 
         ep.emitLater("after_getTimeCondition");
     });

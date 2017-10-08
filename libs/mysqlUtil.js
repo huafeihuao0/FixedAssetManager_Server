@@ -23,88 +23,153 @@
   Desc: mysqlUtil - the helper of mysql
  */
 
-var mysql     = require("mysql");
-var mysqlPool = null;
-var config    = require("../config").initConfig();
+var mysql = require("mysql");
+var mysqlPool = null;//mysql连接池
+var config = require("../config").initConfig();
 
 /**
- * init mysql pool
- * @return {null} 
+ * 初始化mysql连接池
+ * @return {null}
  */
-function initMysqlPool () {
+function mInitMysqlPool()
+{
     mysqlPool = mysql.createPool(config.mysqlConfig);
 }
 
 /**
- * do mysql query
- * @param  {object}   sqlReq   the sql request obj
- * @param  {Function} callback the callback func
- * @return {null}            
+ * 查询
+ * @param  {object}   queryRequset  查询请求对象
+ * @param  {Function} onQueryDone 查询完成后回调
+ * @return {null}
  */
-exports.query = function (sqlReq, callback) {
-    //sql, params
-    if (!mysqlPool) {
-        initMysqlPool();
-    }
+function query(queryRequset, onQueryDone)
+{
+    /*检查连接池是否存在*/
+    mCheckPoolExisted();
+    /*检查查询请求是否存在*/
+    mCheckQueryReqExisted(queryRequset);
+    //TODO 检查模式字符串是否存在
+    var sql_pattern =mCheckSqlPattern(queryRequset);
 
-    if (!sqlReq) {
-        throw new DBError("the sqlReq is null");
-    }
-
-    var sql_pattern = sqlReq.sql || "";
-    if (sql_pattern.length === 0) {
-        throw new DBError("the sql is empty");
-    }
-
-    mysqlPool.getConnection(function (err, connection) {
-
-        if (err) {
-            throw err;
-        }
-
-        connection.config.queryFormat = function (query, values) {
-            if (!values) return query;
-            return query.replace(/\:(\w+)/g, function (txt, key) {
-              if (values.hasOwnProperty(key)) {
-                return this.escape(values[key]);
-              }
-              return txt;
-            }.bind(this));
-        };
-
-        connection.query(sql_pattern, sqlReq.params, function (err, rows) {
-            connection.release();
-            return callback(err, rows);
+    /*从连接池中获取一个可用连接*/
+    mGetAvaiConn(function onConnAvail(conn)
+    {
+        /*查询请求格式化(将占位符去掉)*/
+        conn.config.queryFormat = mQueryFormat;
+        conn.query(sql_pattern, queryRequset.params, function (err, rows)
+        {
+            conn.release();//释放连接
+            if (onQueryDone)
+            {
+                onQueryDone(err, rows);
+            }
         });
-    });
+    })
 };
 
 /**
- * get mysql-connection for transaction
- * @param  {Function} callback the cb func
- * @return {null}            
+ * 获取执行事务的连接
+ * @param  {Function} onTransConnAvail 当用于事务的连接存在时候回调
+ * @return {null}
  */
-exports.processTransaction = function (callback) {
-    if (!mysqlPool) {
-        initMysqlPool();
+function getTransConn(onTransConnAvail)
+{
+    /*检查连接池是否存在*/
+    mCheckPoolExisted();
+    /*从连接池中获取一个可用连接*/
+    mGetAvaiConn(function onConnAvail(conn)
+    {
+        /*查询请求格式化(将占位符去掉)*/
+        conn.config.queryFormat =mQueryFormat;
+
+        if (onTransConnAvail)
+        {
+            onTransConnAvail(conn);
+        }
+    })
+};
+
+/***
+ *检查连接池是否存在
+ ***/
+function mCheckPoolExisted()
+{
+    if (!mysqlPool)
+    {
+        mInitMysqlPool();
     }
+}
 
-    mysqlPool.getConnection(function (err, connection) {
+/***
+ *检查查询请求是否存在
+ * @param queryRequset {Object} 查询请求对象
+ ***/
+function mCheckQueryReqExisted(queryRequset)
+{
+    if (!queryRequset)
+    {
+        throw new DBError("the sqlReq is null");
+    }
+}
 
-        if (err) {
+/***
+ *
+ * @param queryRequset {Object} 查询请求对象
+ ***/
+function mCheckSqlPattern(queryRequset)
+{
+    var sql_pattern = queryRequset.sql || "";
+    if (sql_pattern.length === 0)
+    {
+        throw new DBError("the sql is empty");
+    }
+    return sql_pattern;
+}
+
+/***
+ *从连接池中获取一个可用连接
+ *
+ * @param onConnAvail {Function} 当有可用连接的时候回调
+ ***/
+function mGetAvaiConn(onConnAvail)
+{
+    mysqlPool.getConnection(function (err, connection)
+    {
+        if (err)
+        {
             throw err;
         }
 
-        connection.config.queryFormat = function (query, values) {
-            if (!values) return query;
-            return query.replace(/\:(\w+)/g, function (txt, key) {
-              if (values.hasOwnProperty(key)) {
-                return this.escape(values[key]);
-              }
-              return txt;
-            }.bind(this));
-        };
-
-        return callback(connection);
+        if (onConnAvail)
+        {
+            onConnAvail(connection);
+        }
     });
+}
+
+/***
+ *查询请求格式化(将占位符去掉)
+ *
+ * @param query {String} 查询字符串
+ * @param values {Array} 查询参数集
+ ***/
+function mQueryFormat(query, values)
+{
+    if (!values)
+    {
+        return query;
+    }
+    var filledQuery=query.replace(/\:(\w+)/g, function (txt, key)
+    {
+        if (values.hasOwnProperty(key))
+        {
+            return this.escape(values[key]);
+        }
+        return txt;
+    }.bind(this));
+    return filledQuery;
 };
+
+
+exports.query = query;//查询
+exports.processTransaction = getTransConn;//获取执行事务的连接

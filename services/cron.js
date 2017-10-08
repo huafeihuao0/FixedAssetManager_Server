@@ -95,7 +95,7 @@ exports.startPushDBBackupFileService = function (cronPattern, callback)
     var cp = cronPattern || "00 30 23 */3 * *";
     var job = mCronGenerator(cp, function ()
     {
-        var backupFile = pathParser.resolve(__dirname, "../backup/", new Date().Format("yyyy_MM_dd") + ".sql");
+        var backupFile = pathParser.resolve(__dirname, "../backup/", new Date().format("yyyy_MM_dd") + ".sql");
         mailService.sendMail({
             subject: "DB backup Mail",
             attachments: [
@@ -133,7 +133,7 @@ function mCronGenerator(cronPattern, task)
  ***/
 function mBackupTask()
 {
-    var backupFile = pathParser.resolve(__dirname, "../backup/", new Date().Format("yyyy_MM_dd") + ".sql");
+    var backupFile = pathParser.resolve(__dirname, "../backup/", new Date().format("yyyy_MM_dd") + ".sql");
     /*备份命令*/
     var cmd = mMakeBackupCMD(backupFile);
     //执行命令行任务

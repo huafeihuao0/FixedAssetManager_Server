@@ -504,7 +504,7 @@ CryptoJS.lib.Cipher || (function (undefined) {
      * @property {Mode} mode The block mode used in the ciphering operation.
      * @property {Padding} padding The padding scheme used in the ciphering operation.
      * @property {number} blockSize The block size of the cipher.
-     * @property {Format} formatter The default formatting strategy to convert this cipher params object to a string.
+     * @property {format} formatter The default formatting strategy to convert this cipher params object to a string.
      */
     var CipherParams = C_lib.CipherParams = Base.extend({
         /**
@@ -533,7 +533,7 @@ CryptoJS.lib.Cipher || (function (undefined) {
         /**
          * Converts this cipher params object to a string.
          *
-         * @param {Format} formatter (Optional) The formatting strategy to use.
+         * @param {format} formatter (Optional) The formatting strategy to use.
          *
          * @return {string} The stringified cipher params.
          *
@@ -551,7 +551,7 @@ CryptoJS.lib.Cipher || (function (undefined) {
     });
 
     /**
-     * Format namespace.
+     * format namespace.
      */
     var C_format = C.format = {};
 
@@ -577,7 +577,7 @@ CryptoJS.lib.Cipher || (function (undefined) {
             var ciphertext = cipherParams.ciphertext;
             var salt = cipherParams.salt;
 
-            // Format
+            // format
             if (salt) {
                 var wordArray = WordArray.create([0x53616c74, 0x65645f5f]).concat(salt).concat(ciphertext);
             } else {

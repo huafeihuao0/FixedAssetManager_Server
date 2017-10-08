@@ -63,7 +63,7 @@ exports.create = function (req, res, next) {
     var pwdInfo           = processPassword(newUser.uid, newUser.pwd);
     newUser.token         = pwdInfo.salt;
     newUser.pwd           = pwdInfo.encryptPwd;                       //override pwd field by encypting!!!
-    newUser.lastLoginTime = new Date().Format("yyyy-MM-dd hh:mm:ss");
+    newUser.lastLoginTime = new Date().format("yyyy-MM-dd hh:mm:ss");
 
     AuthUser.create(newUser, function (err, rows) {
         if (err) {
