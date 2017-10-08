@@ -29,7 +29,6 @@ var Loader = require("loader");//loader静态
 var express = require("express");
 
 var routes = require("./routes");//路由
-var common = require("./common/Error");//通用模块
 var AppConfig = require("./appConfig").config;//应用配置脚本
 var errorHandler = require("./common/errorHandler");//错误处理器
 var cronService = require("./services/cron");
