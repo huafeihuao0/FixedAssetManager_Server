@@ -140,7 +140,7 @@ function usePreMidwares()
  ***/
 function useCustomeMidwares()
 {
-    app.use(require("./controllers/login").commonProcess);
+    app.use(require("./controllers/loginController").commonProcess);
 }
 
 /***

@@ -82,7 +82,7 @@ module.exports = function (grunt) {
                             "appConfig.js",
                             /*     for front end    */
                             "public/libs/js/create.js",
-                            "public/libs/js/login.js",
+                            "public/libs/js/loginController.js",
                             "public/libs/js/print.js",
                             "public/libs/js/manage.js",
                             "public/libs/js/batchCreate.js"

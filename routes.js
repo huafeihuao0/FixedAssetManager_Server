@@ -27,25 +27,25 @@
  routes - the router of url request
  */
 
-var user = require("./controllers/user");
-var fixedAsset = require("./controllers/fixedAsset");
-var fixedAssetHistory = require("./controllers/fixedAssetHistory");
-var faType = require("./controllers/faType");
-var department = require("./controllers/department");
-var others = require("./controllers/others");
-var login = require("./controllers/login");
-var logout = require("./controllers/logout");
-var company = require("./controllers/company");
-var authUser = require("./controllers/authUser");
+var userController = require("./controllers/userController");
+var fixedAssetController = require("./controllers/fixedAssetController");
+var fixedAssetHistoryController = require("./controllers/fixedAssetHistoryController");
+var faTypeController = require("./controllers/faTypeController");
+var departmentController = require("./controllers/departmentController");
+var othersController = require("./controllers/othersController");
+var loginController = require("./controllers/loginController");
+var logoutController = require("./controllers/logoutController");
+var companyController = require("./controllers/companyController");
+var authUserController = require("./controllers/authUserController");
 
-var giftCategory = require("./controllers/giftCategory");
-var stockInType = require("./controllers/stockInType");
-var gift = require("./controllers/gift");
-var paymentType = require("./controllers/paymentType");
-var stockIn = require("./controllers/stockIn");
-var stockOut = require("./controllers/stockOut");
-var inventory = require("./controllers/inventory");
-var limitation = require("./controllers/limitation");
+var giftCategoryController = require("./controllers/giftCategoryController");
+var stockInTypeController = require("./controllers/stockInTypeController");
+var giftController = require("./controllers/giftController");
+var paymentTypeController = require("./controllers/paymentTypeController");
+var stockInController = require("./controllers/stockInController");
+var stockOutController = require("./controllers/stockOutController");
+var inventoryController = require("./controllers/inventoryController");
+var limitationController = require("./controllers/limitationController");
 
 module.exports = function (app)
 {
@@ -54,104 +54,123 @@ module.exports = function (app)
     /*                Resful: URI Represent a Resource!!!                   */
     /************************************************************************/
 
-    /********************************fixed asset*****************************/
+    /*建立固定资产页面路由*/
+    setupFixAssetsPageRoutes();
+    /*建立固定资产API路由*/
+    setupFixAssetsAPIRoutes();
 
+    /*gift页面路由*/
+    setupGiftPageRoutes();
+    app.get("*", othersController.fourofour);
+};
+
+/***
+ *建立固定资产页面路由
+ ***/
+function setupFixAssetsPageRoutes()
+{
     //html page
     // app.get("/", others.index);
-    app.get("/", fixedAsset.manage);
-    app.get("/qrtest", fixedAsset.handleQrcode);
-    app.get("/apis", others.apis);
-    app.get("/login", login.showLogin);
-    app.post("/signin", login.signIn);
-    app.get("/signout", logout.signOut);
-    app.get("/fixedasset/printservice/:pageIndex/:timefrom?/:timeto?", fixedAsset.printService);
-    app.get("/fixedasset/manage", fixedAsset.manage);
-    app.get("/404", others.fourofour);
-    app.get("/captchaImg", login.captchaImg);
-    app.get("/fixedasset/:faId/edit", fixedAsset.edit);
-    app.get("/fixedasset/create/:faId?", fixedAsset.create);
-    app.post("/fixedasset/import/company/:companyId", fixedAsset.importFA);
-    app.get("/fixedasset/batchCreate", fixedAsset.batchCreate);
-    app.get("/fixedasset/excelExport/:companyId", fixedAsset.exportExcel);
-    app.get("/addUser", login.addUser);
-    app.get("/editpwd", login.editpwd);
+    app.get("/", fixedAssetController.manage);
+    app.get("/qrtest", fixedAssetController.handleQrcode);
+    app.get("/apis", othersController.apis);
+    app.get("/login", loginController.showLogin);
+    app.post("/signin", loginController.signIn);
+    app.get("/signout", logoutController.signOut);
+    app.get("/fixedasset/printservice/:pageIndex/:timefrom?/:timeto?", fixedAssetController.printService);
+    app.get("/fixedasset/manage", fixedAssetController.manage);
+    app.get("/404", othersController.fourofour);
+    app.get("/captchaImg", loginController.captchaImg);
+    app.get("/fixedasset/:faId/edit", fixedAssetController.edit);
+    app.get("/fixedasset/create/:faId?", fixedAssetController.create);
+    app.post("/fixedasset/import/company/:companyId", fixedAssetController.importFA);
+    app.get("/fixedasset/batchCreate", fixedAssetController.batchCreate);
+    app.get("/fixedasset/excelExport/:companyId", fixedAssetController.exportExcel);
+    app.get("/addUser", loginController.addUser);
+    app.get("/editpwd", loginController.editpwd);
+}
 
+/***
+ *建立固定资产API路由
+ ***/
+function setupFixAssetsAPIRoutes()
+{
     //apis
-    app.get("/user/:userId", user.getUserById);
-    app.get("/user/:userId/fixedassets", fixedAsset.getFixedAssetListByUserID);
-    app.get("/fixedasset/:faId/info", fixedAsset.getFixedAssetByfaID);
-    app.get("/fatypes", faType.getAllFATypes);
-    app.get("/departments", department.getAllDepartments);
-    app.get("/fixedasset/:faId/existence", fixedAsset.checkExistence);
-    app.get("/fixedasset/:faId/history", fixedAssetHistory.faHistory);
-    app.get("/department/:deptId/idelfixedasset/type/:typeId/page/:pageIndex?", fixedAsset.idleFixedAsset);
-    app.get("/companies", company.companies);
-    app.get("/fixedasset/conditionInfo", fixedAsset.conditionInfo);
-    app.post("/fixedasset/retrieve", fixedAsset.retrieve);
-    app.get("/fixedasset/getUserId/:userName", fixedAsset.getUserIdByUserName);
-    app.get("/onlineusers", authUser.onlineUsers);
-    app.get("/operaterecords", fixedAssetHistory.operateRecordForwardASession);
+    app.get("/user/:userId", userController.getUserById);
+    app.get("/user/:userId/fixedassets", fixedAssetController.getFixedAssetListByUserID);
+    app.get("/fixedasset/:faId/info", fixedAssetController.getFixedAssetByfaID);
+    app.get("/fatypes", faTypeController.getAllFATypes);
+    app.get("/departments", departmentController.getAllDepartments);
+    app.get("/fixedasset/:faId/existence", fixedAssetController.checkExistence);
+    app.get("/fixedasset/:faId/history", fixedAssetHistoryController.faHistory);
+    app.get("/department/:deptId/idelfixedasset/type/:typeId/page/:pageIndex?", fixedAssetController.idleFixedAsset);
+    app.get("/companies", companyController.companies);
+    app.get("/fixedasset/conditionInfo", fixedAssetController.conditionInfo);
+    app.post("/fixedasset/retrieve", fixedAssetController.retrieve);
+    app.get("/fixedasset/getUserId/:userName", fixedAssetController.getUserIdByUserName);
+    app.get("/onlineusers", authUserController.onlineUsers);
+    app.get("/operaterecords", fixedAssetHistoryController.operateRecordForwardASession);
 
 
-    app.post("/fixedasset/inspection", fixedAsset.inspection);
-    app.post("/fixedasset/rejection", fixedAsset.rejection);
-    app.post("/fixedasset/insertion", fixedAsset.insertion);
-    app.post("/fixedasset/:faId/recycle", fixedAsset.recycle);
-    app.post("/fixedasset/:faId/modification", fixedAsset.modification);
-    app.post("/fixedasset/:faId/allocation", fixedAsset.allocation);
-    app.post("/signup", authUser.create);
-    app.post("/modifypwd", authUser.modifyPassword);
+    app.post("/fixedasset/inspection", fixedAssetController.inspection);
+    app.post("/fixedasset/rejection", fixedAssetController.rejection);
+    app.post("/fixedasset/insertion", fixedAssetController.insertion);
+    app.post("/fixedasset/:faId/recycle", fixedAssetController.recycle);
+    app.post("/fixedasset/:faId/modification", fixedAssetController.modification);
+    app.post("/fixedasset/:faId/allocation", fixedAssetController.allocation);
+    app.post("/signup", authUserController.create);
+    app.post("/modifypwd", authUserController.modifyPassword);
+}
 
-    /************************************Gift********************************/
-
+/***
+ *gift页面路由
+ ***/
+function setupGiftPageRoutes()
+{
     //gift html page
-    app.get("/gift", gift.gift);
-    app.get("/gift/manage", gift.giftManage);
-    app.get("/gift/storage", gift.storage);
-    app.get("/gift/other", gift.other);
+    app.get("/gift", giftController.gift);
+    app.get("/gift/manage", giftController.giftManage);
+    app.get("/gift/storage", giftController.storage);
+    app.get("/gift/other", giftController.other);
 
-    app.get("/giftcategories", giftCategory.giftCategories);
-    app.post("/giftcategory/insertion", giftCategory.insertion);
-    app.post("/giftcategory/modification", giftCategory.modification);
+    app.get("/giftcategories", giftCategoryController.giftCategories);
+    app.post("/giftcategory/insertion", giftCategoryController.insertion);
+    app.post("/giftcategory/modification", giftCategoryController.modification);
 
-    app.get("/stockintypes", stockInType.stockInTypes);
-    app.post("/stockintype/insertion", stockInType.insertion);
-    app.post("/stockintype/modification", stockInType.modification);
+    app.get("/stockintypes", stockInTypeController.stockInTypes);
+    app.post("/stockintype/insertion", stockInTypeController.insertion);
+    app.post("/stockintype/modification", stockInTypeController.modification);
 
-    app.post("/gifts", gift.gifts);
-    app.post("/gift/insertion", gift.insertion);
-    app.post("/gift/modification", gift.modification);
-    app.post("/gift/deletion", gift.deletion);
+    app.post("/gifts", giftController.gifts);
+    app.post("/gift/insertion", giftController.insertion);
+    app.post("/gift/modification", giftController.modification);
+    app.post("/gift/deletion", giftController.deletion);
 
-    app.get("/paymenttypes", paymentType.paymentTypes);
-    app.post("/paymenttype/insertion", paymentType.insertion);
-    app.post("/paymenttype/modification", paymentType.modification);
+    app.get("/paymenttypes", paymentTypeController.paymentTypes);
+    app.post("/paymenttype/insertion", paymentTypeController.insertion);
+    app.post("/paymenttype/modification", paymentTypeController.modification);
 
-    app.post("/stockins", stockIn.stockins);
-    app.post("/stockin/insertion", stockIn.insertion);
-    app.post("/stockin/modification", stockIn.modification);
-    app.post("/stockin/deletion", stockIn.deletion);
-    app.post("/stockin/import", stockIn.importSI);
-    app.get("/stockin/export", stockIn.exportSI);
+    app.post("/stockins", stockInController.stockins);
+    app.post("/stockin/insertion", stockInController.insertion);
+    app.post("/stockin/modification", stockInController.modification);
+    app.post("/stockin/deletion", stockInController.deletion);
+    app.post("/stockin/import", stockInController.importSI);
+    app.get("/stockin/export", stockInController.exportSI);
 
-    app.post("/stockouts", stockOut.stockouts);
-    app.post("/stockout/insertion", stockOut.insertion);
-    app.post("/stockout/modification", stockOut.modification);
-    app.post("/stockout/deletion", stockOut.deletion);
-    app.get("/stockout/export", stockOut.exportSO);
+    app.post("/stockouts", stockOutController.stockouts);
+    app.post("/stockout/insertion", stockOutController.insertion);
+    app.post("/stockout/modification", stockOutController.modification);
+    app.post("/stockout/deletion", stockOutController.deletion);
+    app.get("/stockout/export", stockOutController.exportSO);
 
-    app.get("/limitations", limitation.limitations);
-    app.post("/limitation/insertion", limitation.insertion);
-    app.post("/limitation/modification", limitation.modification);
-    app.post("/limitation/deletion", limitation.deletion);
+    app.get("/limitations", limitationController.limitations);
+    app.post("/limitation/insertion", limitationController.insertion);
+    app.post("/limitation/modification", limitationController.modification);
+    app.post("/limitation/deletion", limitationController.deletion);
 
-    app.post("/inventories", inventory.inventories);
-    app.get("/inventory/export", inventory.exportInv);
+    app.post("/inventories", inventoryController.inventories);
+    app.get("/inventory/export", inventoryController.exportInv);
 
-    app.get("/manualinputdepts", department.allManualInputDepts);
-    app.get("/suppliers", stockIn.suppliers);
-
-
-    //can't mapping router
-    app.get("*", others.fourofour);
-};
+    app.get("/manualinputdepts", departmentController.allManualInputDepts);
+    app.get("/suppliers", stockInController.suppliers);
+}
