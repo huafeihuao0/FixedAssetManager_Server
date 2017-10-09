@@ -2,23 +2,40 @@
 
 "use strict";
 
-var path     = require("path");
+var pathParser     = require("path");//路径解析器
 var fs       = require("fs");
-var Loader   = require("loader");
+var Loader   = require("loader");//文件加载器
+var viewsDir;//视图目录
+var baseDir;//基目录
+var justCombo;//合并地址
+(function init()
+{
+    /*从命令行获取参数*/
+    mGetCMDParams();
+    //扫码目录
+    var scaned   = Loader.scanDir(viewsDir);
+    console.log("Scaned:");
+    console.log(scaned);
+    //合并
+    var minified = Loader.minify(baseDir, scaned, justCombo);
+    console.log(minified);
+    console.log("Compile static assets done.");
+    //写入文件
+    fs.writeFileSync(pathParser.join(baseDir, "assets.json"), JSON.stringify(Loader.map(minified)));
+    console.log("write assets.json done. assets.json: ");
+    console.log(fs.readFileSync(pathParser.join(baseDir, "assets.json"), "utf-8"));
+})();
 
-var viewsDir = path.join(process.cwd(), process.argv[2]);
-var baseDir  = path.join(process.cwd(), process.argv[3]);
+/**
+* 从命令行获取参数
+**/
+function mGetCMDParams()
+{
+    viewsDir = pathParser.join(process.cwd(), process.argv[2]);
+    baseDir  = pathParser.join(process.cwd(), process.argv[3]);
+    justCombo = process.argv[4];
+}
 
-var scaned   = Loader.scanDir(viewsDir);
-console.log("Scaned:");
-console.log(scaned);
 
-var justCombo = process.argv[4];
 
-var minified = Loader.minify(baseDir, scaned, justCombo);
-console.log(minified);
-console.log("Compile static assets done.");
 
-fs.writeFileSync(path.join(baseDir, "assets.json"), JSON.stringify(Loader.map(minified)));
-console.log("write assets.json done. assets.json: ");
-console.log(fs.readFileSync(path.join(baseDir, "assets.json"), "utf-8"));
