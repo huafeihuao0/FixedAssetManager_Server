@@ -48,7 +48,7 @@ function query(queryRequset, onQueryDone)
     mCheckPoolExisted();
     /*检查查询请求是否存在*/
     mCheckQueryReqExisted(queryRequset);
-    //TODO 检查模式字符串是否存在
+    /*检查模式字符串是否存在*/
     var sql_pattern =mCheckSqlPattern(queryRequset);
 
     /*从连接池中获取一个可用连接*/
