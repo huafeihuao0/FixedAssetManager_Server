@@ -47,6 +47,9 @@ var stockOutController = require("./controllers/stockOutController");
 var inventoryController = require("./controllers/inventoryController");
 var limitationController = require("./controllers/limitationController");
 
+/*认证相关中间件*/
+var authMids=require('./midwares/authMids');
+
 /**
 * 映射路由
 **/
@@ -73,19 +76,25 @@ function mSetupFixAssetsPageRoutes()
 {
     //html page
     // app.get("/", others.index);
+    app.get("/",authMids.checkLoginedMid);
     app.get("/", fixedAssetController.manage);
+
     app.get("/qrtest", fixedAssetController.handleQrcode);
     app.get("/apis", othersController.apis);
     app.get("/login", loginController.showLogin);
     app.post("/signin", loginController.signIn);
     app.get("/signout", logoutController.signOut);
+    app.get("/fixedasset/printservice/:pageIndex/:timefrom?/:timeto?",authMids.checkLoginedMid);
     app.get("/fixedasset/printservice/:pageIndex/:timefrom?/:timeto?", fixedAssetController.printService);
     app.get("/fixedasset/manage", fixedAssetController.manage);
     app.get("/404", othersController.fourofour);
     app.get("/captchaImg", loginController.captchaImg);
+    app.get("/fixedasset/:faId/edit",authMids.checkLoginedMid);
     app.get("/fixedasset/:faId/edit", fixedAssetController.edit);
+    app.get("/fixedasset/create/:faId?",authMids.checkLoginedMid);
     app.get("/fixedasset/create/:faId?", fixedAssetController.create);
     app.post("/fixedasset/import/company/:companyId", fixedAssetController.importFA);
+    app.get("/fixedasset/batchCreate",authMids.checkLoginedMid);
     app.get("/fixedasset/batchCreate", fixedAssetController.batchCreate);
     app.get("/fixedasset/excelExport/:companyId", fixedAssetController.exportExcel);
     app.get("/addUser", loginController.addUser);
@@ -108,7 +117,9 @@ function mSetupFixAssetsAPIRoutes()
     app.get("/department/:deptId/idelfixedasset/type/:typeId/page/:pageIndex?", fixedAssetController.idleFixedAsset);
     app.get("/companies", companyController.companies);
     app.get("/fixedasset/conditionInfo", fixedAssetController.conditionInfo);
+    app.post("/fixedasset/retrieve",authMids.checkLoginedMid);
     app.post("/fixedasset/retrieve", fixedAssetController.retrieve);
+    app.get("/fixedasset/getUserId/:userName",authMids.checkLoginedMid);
     app.get("/fixedasset/getUserId/:userName", fixedAssetController.getUserIdByUserName);
     app.get("/onlineusers", authUserController.onlineUsers);
     app.get("/operaterecords", fixedAssetHistoryController.operateRecordForwardASession);
