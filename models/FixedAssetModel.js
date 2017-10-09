@@ -21,17 +21,17 @@
 //   Date: 10/10/13
 //   Time: 17:30 PM
 //   Desc: fixedAsset - base model class of fixedAsset
- 
 
 
-// /**
-//  * model of fixed asset
-//  */
-// function FixedAsset () {
-//     this.faId      = "";
-//     this.faTypeId    = "";
-//     this.faOwnerId   = "";
-// }
+/**
+ *固定资产模型
+ */
+function FixedAsset()
+{
+    this.faId = "";
+    this.faTypeId = "";
+    this.faOwnerId = "";
+}
 
 
-// exports.FixedAsset=FixedAsset;
+exports.FixedAsset = FixedAsset;//固定资产模型

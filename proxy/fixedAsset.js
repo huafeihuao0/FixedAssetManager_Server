@@ -23,7 +23,7 @@
   Desc: fixedAsset - the proxy of fixedAsset
  */
 
-var User = require('../models/fixedAsset');
+var User = require('../models/FixedAssetModel');
 var mysqlClient = require("../libs/mysqlUtil");
 var EventProxy = require("eventproxy");
 var config = require("../config").initConfig();
