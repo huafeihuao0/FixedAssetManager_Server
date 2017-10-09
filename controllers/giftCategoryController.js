@@ -44,10 +44,10 @@ exports.giftCategories = function (req, res, next) {
 
     GiftCategory.getAllCategories(function (err, rows) {
         if (err) {
-            return res.send(resUtil.generateRes(null, err.statusCode));
+            return res.send(resUtil.genRes(null, err.statusCode));
         }
 
-        res.send(resUtil.generateRes(rows, config.statusCode.STATUS_OK));
+        res.send(resUtil.genRes(rows, config.statusCode.STATUS_OK));
     });
 };
 
@@ -70,15 +70,15 @@ exports.insertion = function (req, res, next) {
         check(name).notEmpty();
         name = sanitize(sanitize(name).trim()).xss();
     } catch (e) {
-        return res.send(resUtil.generateRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
+        return res.send(resUtil.genRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
     }
 
     GiftCategory.add({ name : name}, function (err, rows) {
         if (err) {
-            return res.send(resUtil.generateRes(null, err.statusCode));
+            return res.send(resUtil.genRes(null, err.statusCode));
         }
 
-        res.send(resUtil.generateRes(null, config.statusCode.STATUS_OK));
+        res.send(resUtil.genRes(null, config.statusCode.STATUS_OK));
     });
 };
 
@@ -107,14 +107,14 @@ exports.modification = function (req, res, next) {
         categoryId = sanitize(sanitize(categoryId).trim()).xss();
         name = sanitize(sanitize(name).trim()).xss();
     } catch (e) {
-        return res.send(resUtil.generateRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
+        return res.send(resUtil.genRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
     }
 
     GiftCategory.modify({ categoryId : categoryId, name : name}, function (err, rows) {
         if (err) {
-            return res.send(resUtil.generateRes(null, err.statusCode));
+            return res.send(resUtil.genRes(null, err.statusCode));
         }
 
-        res.send(resUtil.generateRes(null, config.statusCode.STATUS_OK));
+        res.send(resUtil.genRes(null, config.statusCode.STATUS_OK));
     });
 };

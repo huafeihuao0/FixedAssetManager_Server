@@ -63,15 +63,15 @@ exports.stockins = function(req, res, next) {
             conditions.siId = sanitize(sanitize(req.body.siId).trim()).xss();
         }
     } catch (e) {
-        return res.send(resUtil.generateRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
+        return res.send(resUtil.genRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
     }
 
     StockIn.getAllStockInWithCondition(conditions, function(err, rows) {
         if (err) {
-            return res.send(resUtil.generateRes(null, err.statusCode));
+            return res.send(resUtil.genRes(null, err.statusCode));
         }
 
-        res.send(resUtil.generateRes(rows, config.statusCode.STATUS_OK));
+        res.send(resUtil.genRes(rows, config.statusCode.STATUS_OK));
     });
 };
 
@@ -108,15 +108,15 @@ exports.insertion = function(req, res, next) {
         stockInInfo.remark = sanitize(sanitize(req.body.remark).trim()).xss();
         stockInInfo.other = sanitize(sanitize(req.body.other).trim()).xss();
     } catch (e) {
-        return res.send(resUtil.generateRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
+        return res.send(resUtil.genRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
     }
 
     StockIn.add(stockInInfo, function(err, rows) {
         if (err) {
-            return res.send(resUtil.generateRes(null, err.statusCode));
+            return res.send(resUtil.genRes(null, err.statusCode));
         }
 
-        res.send(resUtil.generateRes(null, config.statusCode.STATUS_OK));
+        res.send(resUtil.genRes(null, config.statusCode.STATUS_OK));
     });
 
 };
@@ -156,15 +156,15 @@ exports.modification = function(req, res, next) {
         stockInInfo.remark = sanitize(sanitize(req.body.remark).trim()).xss();
         stockInInfo.other = sanitize(sanitize(req.body.other).trim()).xss();
     } catch (e) {
-        return res.send(resUtil.generateRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
+        return res.send(resUtil.genRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
     }
 
     StockIn.modify(stockInInfo, function(err, rows) {
         if (err) {
-            return res.send(resUtil.generateRes(null, err.statusCode));
+            return res.send(resUtil.genRes(null, err.statusCode));
         }
 
-        res.send(resUtil.generateRes(null, config.statusCode.STATUS_OK));
+        res.send(resUtil.genRes(null, config.statusCode.STATUS_OK));
     });
 };
 
@@ -189,7 +189,7 @@ exports.deletion = function(req, res, next) {
         siId = req.body.siId;
         siId = sanitize(sanitize(siId).trim()).xss();
     } catch (e) {
-        return res.send(resUtil.generateRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
+        return res.send(resUtil.genRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
     }
 
     var ep = new EventProxy();
@@ -213,11 +213,11 @@ exports.deletion = function(req, res, next) {
     });
 
     ep.once("completed", function() {
-        return res.send(resUtil.generateRes(null, config.statusCode.STATUS_OK));
+        return res.send(resUtil.genRes(null, config.statusCode.STATUS_OK));
     });
 
     ep.fail(function(err) {
-        return res.send(resUtil.generateRes(null, err.statusCode));
+        return res.send(resUtil.genRes(null, err.statusCode));
     });
 };
 
@@ -233,10 +233,10 @@ exports.suppliers = function(req, res, next) {
 
     StockIn.getAllSuppliers(function(err, rows) {
         if (err) {
-            return res.send(resUtil.generateRes(null, err.statusCode));
+            return res.send(resUtil.genRes(null, err.statusCode));
         }
 
-        res.send(resUtil.generateRes(rows, config.statusCode.STATUS_OK));
+        res.send(resUtil.genRes(rows, config.statusCode.STATUS_OK));
     });
 };
 
@@ -262,7 +262,7 @@ exports.importSI = function(req, res, next) {
         check(tmp_path).notEmpty();
         fileName = sanitize(sanitize(fileName).trim()).xss();
     } catch (e) {
-        return res.send(resUtil.generateRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
+        return res.send(resUtil.genRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
     }
 
     var xlsxPath = path.resolve(__dirname, "../uploads/", fileName);
@@ -316,12 +316,12 @@ exports.importSI = function(req, res, next) {
     });
 
     ep.once("completed", function() {
-        return res.send(resUtil.generateRes(null, config.statusCode.STATUS_OK));
+        return res.send(resUtil.genRes(null, config.statusCode.STATUS_OK));
     });
 
     ep.fail(function(err) {
         fs.unlinkSync(xlsxPath);
-        return res.send(resUtil.generateRes(null, err.statusCode));
+        return res.send(resUtil.genRes(null, err.statusCode));
     });
 };
 

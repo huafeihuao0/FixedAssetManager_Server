@@ -47,15 +47,15 @@ exports.faHistory = function (req, res, next) {
         check(faId).notEmpty();
         faId = sanitize(sanitize(faId).trim()).xss();
     } catch (e) {
-        return res.send(resUtil.generateRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
+        return res.send(resUtil.genRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
     }
 
     FixedAssetHistory.getHistoryListByFAId(faId, function(err, rows) {
         if (err) {
-            return res.send(resUtil.generateRes(null, err.statusCode));
+            return res.send(resUtil.genRes(null, err.statusCode));
         }
 
-        res.send(resUtil.generateRes(rows, config.statusCode.STATUS_OK));
+        res.send(resUtil.genRes(rows, config.statusCode.STATUS_OK));
     });
 };
 
@@ -106,11 +106,11 @@ exports.operateRecordForwardASession = function (req, res, next) {
                 return ep.emitLater("error", err);
             }
 
-            return res.send(resUtil.generateRes(rows, config.statusCode.STATUS_OK));
+            return res.send(resUtil.genRes(rows, config.statusCode.STATUS_OK));
         });
     });
 
     ep.fail(function (err) {
-        return res.send(resUtil.generateRes(null, err.statusCode));
+        return res.send(resUtil.genRes(null, err.statusCode));
     });
 }

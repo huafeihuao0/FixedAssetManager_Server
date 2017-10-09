@@ -44,10 +44,10 @@ exports.stockInTypes = function (req, res, next) {
 
     StockInType.getAllStockInTypes(function (err, rows) {
         if (err) {
-            return res.send(resUtil.generateRes(null, err.statusCode));
+            return res.send(resUtil.genRes(null, err.statusCode));
         }
 
-        res.send(resUtil.generateRes(rows, config.statusCode.STATUS_OK)); 
+        res.send(resUtil.genRes(rows, config.statusCode.STATUS_OK));
     });
 };
 
@@ -70,15 +70,15 @@ exports.insertion = function (req, res, next) {
         check(typeName).notEmpty();
         typeName = sanitize(sanitize(typeName).trim()).xss();
     } catch (e) {
-        return res.send(resUtil.generateRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
+        return res.send(resUtil.genRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
     }
 
     StockInType.add({ typeName : typeName}, function (err, rows) {
         if (err) {
-            return res.send(resUtil.generateRes(null, err.statusCode));
+            return res.send(resUtil.genRes(null, err.statusCode));
         }
 
-        res.send(resUtil.generateRes(null, config.statusCode.STATUS_OK)); 
+        res.send(resUtil.genRes(null, config.statusCode.STATUS_OK));
     });
 };
 
@@ -108,14 +108,14 @@ exports.modification = function (req, res, next) {
         sitId = sanitize(sanitize(sitId).trim()).xss();
         typeName = sanitize(sanitize(typeName).trim()).xss();
     } catch (e) {
-        return res.send(resUtil.generateRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
+        return res.send(resUtil.genRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
     }
 
     StockInType.modify({ sitId : sitId, typeName : typeName}, function (err, rows) {
         if (err) {
-            return res.send(resUtil.generateRes(null, err.statusCode));
+            return res.send(resUtil.genRes(null, err.statusCode));
         }
 
-        res.send(resUtil.generateRes(null, config.statusCode.STATUS_OK));
+        res.send(resUtil.genRes(null, config.statusCode.STATUS_OK));
     });
 };

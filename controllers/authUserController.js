@@ -57,7 +57,7 @@ exports.create = function (req, res, next) {
         newUser.pwd   = sanitize(sanitize(req.body.pwd).trim()).xss();
         newUser.uName = sanitize(sanitize(req.body.uName).trim()).xss();
     } catch (e) {
-        return res.send(resUtil.generateRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
+        return res.send(resUtil.genRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
     }
 
     var pwdInfo           = processPassword(newUser.uid, newUser.pwd);
@@ -67,10 +67,10 @@ exports.create = function (req, res, next) {
 
     AuthUser.create(newUser, function (err, rows) {
         if (err) {
-            return res.send(resUtil.generateRes(null, err.statusCode));
+            return res.send(resUtil.genRes(null, err.statusCode));
         }
 
-        return res.send(resUtil.generateRes(null, config.statusCode.STATUS_OK));
+        return res.send(resUtil.genRes(null, config.statusCode.STATUS_OK));
     });
 };
 
@@ -99,7 +99,7 @@ exports.modifyPassword = function (req, res, next) {
         new_pwd = sanitize(sanitize(new_pwd).trim()).xss();
     } catch (e) {
         debugCtrller("enter catch block...");
-        return res.send(resUtil.generateRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
+        return res.send(resUtil.genRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
     }
 
     var salt       = SHA256(userId).toString();
@@ -128,13 +128,13 @@ exports.modifyPassword = function (req, res, next) {
                 return ep.emitLater("error", err);
             }
 
-            return res.send(resUtil.generateRes(null, config.statusCode.STATUS_OK));
+            return res.send(resUtil.genRes(null, config.statusCode.STATUS_OK));
         });
     });
 
     //error handler
     ep.fail(function (err) {
-        return res.send(resUtil.generateRes(null, err.statusCode));
+        return res.send(resUtil.genRes(null, err.statusCode));
     });
 
 };
@@ -154,10 +154,10 @@ exports.onlineUsers = function (req, res, next) {
 
     AuthUser.getAllOnlineUsers(function (err, rows) {
         if (err) {
-            return res.send(resUtil.generateRes(null, err.statusCode));
+            return res.send(resUtil.genRes(null, err.statusCode));
         }
 
-        return res.send(resUtil.generateRes(rows, config.statusCode.STATUS_OK));
+        return res.send(resUtil.genRes(rows, config.statusCode.STATUS_OK));
     });
 };
 

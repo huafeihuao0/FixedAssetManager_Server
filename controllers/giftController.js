@@ -62,15 +62,15 @@ exports.gifts = function (req, res, next) {
         }
 
     } catch (e) {
-        return res.send(resUtil.generateRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
+        return res.send(resUtil.genRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
     }
 
     Gift.getGiftWithConditiions(conditionObj, function (err, rows) {
        if (err) {
-            return res.send(resUtil.generateRes(null, err.statusCode));
+            return res.send(resUtil.genRes(null, err.statusCode));
        }
 
-       res.send(resUtil.generateRes(rows, config.statusCode.STATUS_OK));
+       res.send(resUtil.genRes(rows, config.statusCode.STATUS_OK));
     });
 };
 
@@ -102,7 +102,7 @@ exports.insertion = function (req, res, next) {
         giftObj.expireDate = sanitize(sanitize(req.body.expireDate || "").trim()).xss();
         giftObj.categoryId = sanitize(sanitize(req.body.categoryId).trim()).xss();
     } catch (e) {
-        return res.send(resUtil.generateRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
+        return res.send(resUtil.genRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
     }
 
     var ep = EventProxy.create();
@@ -126,11 +126,11 @@ exports.insertion = function (req, res, next) {
     });
 
     ep.once("after_addLimitation", function () {
-        return res.send(resUtil.generateRes(null, config.statusCode.STATUS_OK));
+        return res.send(resUtil.genRes(null, config.statusCode.STATUS_OK));
     });
 
     ep.fail(function (err) {
-        return res.send(resUtil.generateRes(null, err.statusCode));
+        return res.send(resUtil.genRes(null, err.statusCode));
     });
 };
 
@@ -162,15 +162,15 @@ exports.modification = function (req, res, next) {
         giftObj.expireDate = sanitize(sanitize(req.body.expireDate || "").trim()).xss();
         giftObj.categoryId = sanitize(sanitize(req.body.categoryId).trim()).xss();
     } catch (e) {
-        return res.send(resUtil.generateRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
+        return res.send(resUtil.genRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
     }
 
     Gift.modify(giftObj, function (err, rows) {
         if (err) {
-            return res.send(resUtil.generateRes(null, err.statusCode));
+            return res.send(resUtil.genRes(null, err.statusCode));
         }
 
-        return res.send(resUtil.generateRes(null, config.statusCode.STATUS_OK));
+        return res.send(resUtil.genRes(null, config.statusCode.STATUS_OK));
     });
 };
 
@@ -195,15 +195,15 @@ exports.deletion = function (req, res, next) {
         giftId = req.body.giftId;
         giftId = sanitize(sanitize(giftId).trim()).xss();
     } catch (e) {
-        return res.send(resUtil.generateRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
+        return res.send(resUtil.genRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
     }
 
     Gift.removeWithGiftId(giftId, function (err, rows) {
         if (err) {
-            return res.send(resUtil.generateRes(null, err.statusCode));
+            return res.send(resUtil.genRes(null, err.statusCode));
         }
 
-        res.send(resUtil.generateRes(null, config.statusCode.STATUS_OK));
+        res.send(resUtil.genRes(null, config.statusCode.STATUS_OK));
     });
 };
 

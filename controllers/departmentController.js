@@ -39,10 +39,10 @@ exports.getAllDepartments = function (req, res, next) {
     debugCtrller("controllers/department/getAllDepartments");
     Department.getAllDepartment(function (err, deptList) {
         if (err) {
-            return res.send(resUtil.generateRes(null, err.statusCode));
+            return res.send(resUtil.genRes(null, err.statusCode));
         }
 
-        res.send(resUtil.generateRes(deptList, config.statusCode.STATUS_OK));
+        res.send(resUtil.genRes(deptList, config.statusCode.STATUS_OK));
     });
 };
 
@@ -57,9 +57,9 @@ exports.allManualInputDepts = function (req, res, next) {
     debugCtrller("controllers/department/allManualInputDepts");
     Department.getAllManualDept(function (err, deptList) {
         if (err) {
-            return res.send(resUtil.generateRes(null, err.statusCode));
+            return res.send(resUtil.genRes(null, err.statusCode));
         }
 
-        res.send(resUtil.generateRes(deptList, config.statusCode.STATUS_OK));
+        res.send(resUtil.genRes(deptList, config.statusCode.STATUS_OK));
     });
 };

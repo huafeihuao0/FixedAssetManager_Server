@@ -43,16 +43,16 @@ exports.getUserById = function (req, res, next) {
     try {
         check(userId).notEmpty();
     } catch (e) {
-        return res.send(resUtil.generateRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
+        return res.send(resUtil.genRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
     }
 
     userId = sanitize(sanitize(userId.trim())).xss();
 
     User.getUserInfoById(userId, function (err, rows) {
         if (err) {
-            return res.send(resUtil.generateRes(null, err.statusCode));
+            return res.send(resUtil.genRes(null, err.statusCode));
         }
         
-        res.send(resUtil.generateRes(rows, config.statusCode.STATUS_OK));
+        res.send(resUtil.genRes(rows, config.statusCode.STATUS_OK));
     });
 };

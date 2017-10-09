@@ -45,10 +45,10 @@ exports.paymentTypes = function (req, res, next) {
 
     PaymentType.getAllPaymentType(function (err, rows) {
         if (err) {
-            return res.send(resUtil.generateRes(null, err.statusCode));
+            return res.send(resUtil.genRes(null, err.statusCode));
         }
 
-        res.send(resUtil.generateRes(rows, config.statusCode.STATUS_OK));
+        res.send(resUtil.genRes(rows, config.statusCode.STATUS_OK));
     });
 };
 
@@ -72,15 +72,15 @@ exports.insertion = function (req, res, next) {
         check(req.body.ptName).notEmpty();
         ptInfo.ptName = sanitize(sanitize(req.body.ptName).trim()).xss();
     } catch (e) {
-        return res.send(resUtil.generateRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
+        return res.send(resUtil.genRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
     }
 
     PaymentType.add(ptInfo, function (err, rows) {
         if (err) {
-            return res.send(resUtil.generateRes(null, err.statusCode));
+            return res.send(resUtil.genRes(null, err.statusCode));
         }
 
-        res.send(resUtil.generateRes(null, config.statusCode.STATUS_OK));
+        res.send(resUtil.genRes(null, config.statusCode.STATUS_OK));
     });
 };
 
@@ -106,14 +106,14 @@ exports.modification = function (req, res, next) {
         ptInfo.ptId   = sanitize(sanitize(req.body.ptId).trim()).xss();
         ptInfo.ptName = sanitize(sanitize(req.body.ptName).trim()).xss();
     } catch (e) {
-        return res.send(resUtil.generateRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
+        return res.send(resUtil.genRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
     }
 
     PaymentType.modify(ptInfo, function (err, rows) {
         if (err) {
-            return res.send(resUtil.generateRes(null, err.statusCode));
+            return res.send(resUtil.genRes(null, err.statusCode));
         }
 
-        res.send(resUtil.generateRes(null, config.statusCode.STATUS_OK));
+        res.send(resUtil.genRes(null, config.statusCode.STATUS_OK));
     });
 };

@@ -44,10 +44,10 @@ exports.limitations = function (req, res, next) {
 
     Limitation.getAllLimits(function (err, rows) {
         if (err) {
-            return res.send(resUtil.generateRes(rows, err.statusCode));
+            return res.send(resUtil.genRes(rows, err.statusCode));
         }
 
-        res.send(resUtil.generateRes(rows, config.statusCode.STATUS_OK));
+        res.send(resUtil.genRes(rows, config.statusCode.STATUS_OK));
     });
 };
 
@@ -74,15 +74,15 @@ exports.insertion = function (req, res, next) {
         limitInfo.giftId = sanitize(sanitize(req.body.giftId).trim()).xss();
         limitInfo.limitNum = sanitize(sanitize(req.body.limitNum).trim()).xss();
     } catch (e) {
-        return res.send(resUtil.generateRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
+        return res.send(resUtil.genRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
     }
 
     Limitation.add(limitInfo, function (err, rows) {
         if (err) {
-            return res.send(resUtil.generateRes(null, err.statusCode));
+            return res.send(resUtil.genRes(null, err.statusCode));
         }
 
-        return res.send(resUtil.generateRes(null, config.statusCode.STATUS_OK));
+        return res.send(resUtil.genRes(null, config.statusCode.STATUS_OK));
     });
 };
 
@@ -109,15 +109,15 @@ exports.modification = function (req, res, next) {
         limitInfo.giftId = sanitize(sanitize(req.body.giftId).trim()).xss();
         limitInfo.limitNum = sanitize(sanitize(req.body.limitNum).trim()).xss();
     } catch (e) {
-        return res.send(resUtil.generateRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
+        return res.send(resUtil.genRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
     }
 
     Limitation.modify(limitInfo, function (err, rows) {
         if (err) {
-            return res.send(resUtil.generateRes(null, err.statusCode));
+            return res.send(resUtil.genRes(null, err.statusCode));
         }
 
-        return res.send(resUtil.generateRes(null, config.statusCode.STATUS_OK));
+        return res.send(resUtil.genRes(null, config.statusCode.STATUS_OK));
     });
 };
 
@@ -142,14 +142,14 @@ exports.deletion = function (req, res, next) {
         giftId = req.body.giftId;
         giftId = sanitize(sanitize(giftId).trim()).xss();
     } catch (e) {
-        return res.send(resUtil.generateRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
+        return res.send(resUtil.genRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
     }
 
     Limitation.remove(giftId, function (err, rows) {
         if (err) {
-            return res.send(resUtil.generateRes(null, err.statusCode));
+            return res.send(resUtil.genRes(null, err.statusCode));
         }
 
-        res.send(resUtil.generateRes(null, config.statusCode.STATUS_OK));
+        res.send(resUtil.genRes(null, config.statusCode.STATUS_OK));
     });
 };

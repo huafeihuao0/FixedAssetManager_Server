@@ -39,9 +39,9 @@ exports.getAllFATypes = function (req, res, next) {
     debugCtrller("controllers/faType/getAllFATypes");
     FAType.getAllFATypes(function (err, faTypeList) {
         if (err) {
-            return res.send(resUtil.generateRes(null, err.statusCode));
+            return res.send(resUtil.genRes(null, err.statusCode));
         }
 
-        res.send(resUtil.generateRes(faTypeList, config.statusCode.STATUS_OK));
+        res.send(resUtil.genRes(faTypeList, config.statusCode.STATUS_OK));
     });
 };

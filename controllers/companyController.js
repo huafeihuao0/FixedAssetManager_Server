@@ -37,9 +37,9 @@ exports.companies = function (req, res, next) {
     debugCtrller("controllers/company/companies");
     Company.getCompanyList(function (err, companyList) {
         if (err) {
-            return res.send(resUtil.generateRes(null, err.statusCode));
+            return res.send(resUtil.genRes(null, err.statusCode));
         }
 
-        return res.send(resUtil.generateRes(companyList, config.statusCode.STATUS_OK));
+        return res.send(resUtil.genRes(companyList, config.statusCode.STATUS_OK));
     });
 };

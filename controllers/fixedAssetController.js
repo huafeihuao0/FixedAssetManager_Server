@@ -53,16 +53,16 @@ exports.getFixedAssetByfaID = function (req, res, next) {
     try {
         check(faId).notEmpty();
     } catch (e) {
-        return res.send(resUtil.generateRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
+        return res.send(resUtil.genRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
     }
 
     faId = sanitize(sanitize(faId).trim()).xss();
 
     FixedAsset.getFixedAssetByfaID(faId, function (err, rows) {
         if (err) {
-            res.send(resUtil.generateRes(null, err.statusCode));
+            res.send(resUtil.genRes(null, err.statusCode));
         } else {
-            res.send(resUtil.generateRes(rows, config.statusCode.STATUS_OK));
+            res.send(resUtil.genRes(rows, config.statusCode.STATUS_OK));
         }
     });
 };
@@ -81,7 +81,7 @@ exports.inspection = function (req, res, next) {
     try {
         check(qrCode).notEmpty();
     } catch (e) {
-        return res.send(resUtil.generateRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
+        return res.send(resUtil.genRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
     }
 
     qrCode = sanitize(sanitize(qrCode).trim()).xss();
@@ -106,13 +106,13 @@ exports.inspection = function (req, res, next) {
                 return ep.emitLater("error", err);
             }
 
-            res.send(resUtil.generateRes(faInfo, config.statusCode.STATUS_OK));
+            res.send(resUtil.genRes(faInfo, config.statusCode.STATUS_OK));
         });
     });
 
     //error handler
     ep.fail(function (err) {
-        res.send(resUtil.generateRes(null, err.statusCode));
+        res.send(resUtil.genRes(null, err.statusCode));
     });
 
 };
@@ -139,7 +139,7 @@ exports.rejection = function (req, res, next) {
         req.body.faId = sanitize(sanitize(req.body.faId).trim()).xss();
         req.body.reject = sanitize(req.body.reject).toInt();
     } catch (e) {
-        return res.send(resUtil.generateRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
+        return res.send(resUtil.genRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
     }
 
     var ep = EventProxy.create();
@@ -182,12 +182,12 @@ exports.rejection = function (req, res, next) {
     });
 
     ep.once("completed", function() {
-        res.send(resUtil.generateRes(null, config.statusCode.STATUS_OK));
+        res.send(resUtil.genRes(null, config.statusCode.STATUS_OK));
     });
 
 
     ep.fail(function (err) {
-        res.send(resUtil.generateRes(null, err.statusCode));
+        res.send(resUtil.genRes(null, err.statusCode));
     });
 };
 
@@ -243,11 +243,11 @@ exports.insertion = function (req, res, next) {
     });
 
     ep.once("completed", function() {
-        res.send(resUtil.generateRes(null, config.statusCode.STATUS_OK));
+        res.send(resUtil.genRes(null, config.statusCode.STATUS_OK));
     });
 
     ep.fail(function (err) {
-        res.send(resUtil.generateRes(null, err.statusCode));
+        res.send(resUtil.genRes(null, err.statusCode));
     });
 
 };
@@ -267,7 +267,7 @@ exports.recycle = function (req, res, next) {
         check(faId).notEmpty();
         faId = sanitize(sanitize(faId).trim()).xss();
     } catch (e) {
-        return res.send(resUtil.generateRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
+        return res.send(resUtil.genRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
     }
 
     var ep = EventProxy.create();
@@ -313,11 +313,11 @@ exports.recycle = function (req, res, next) {
     });
 
     ep.once("completed", function() {
-        res.send(resUtil.generateRes(null, config.statusCode.STATUS_OK));
+        res.send(resUtil.genRes(null, config.statusCode.STATUS_OK));
     });
 
     ep.fail(function (err) {
-        res.send(resUtil.generateRes(null, err.statusCode));
+        res.send(resUtil.genRes(null, err.statusCode));
     });
 };
 
@@ -338,7 +338,7 @@ exports.modification = function (req, res, next) {
         check(faId).notEmpty();
         faId = sanitize(sanitize(faId).trim()).xss();
     } catch (e) {
-        return res.send(resUtil.generateRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
+        return res.send(resUtil.genRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
     }
 
     var detailObj = req.body;
@@ -397,11 +397,11 @@ exports.modification = function (req, res, next) {
     });
 
     ep.once("completed", function() {
-        res.send(resUtil.generateRes(null, config.statusCode.STATUS_OK));
+        res.send(resUtil.genRes(null, config.statusCode.STATUS_OK));
     });
 
     ep.fail(function (err) {
-        res.send(resUtil.generateRes(null, err.statusCode));
+        res.send(resUtil.genRes(null, err.statusCode));
     });
 };
 
@@ -419,7 +419,7 @@ exports.getFixedAssetListByUserID = function (req, res, next) {
     try {
         check(userId).notEmpty();
     } catch (e) {
-        return res.send(resUtil.generateRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
+        return res.send(resUtil.genRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
     }
 
     userId = sanitize(sanitize(userId).trim()).xss();
@@ -427,10 +427,10 @@ exports.getFixedAssetListByUserID = function (req, res, next) {
     FixedAsset.getFixedAssetListByUserID(userId, function (err, rows) {
         if (err) {
             debugCtrller(err);
-            return res.send(resUtil.generateRes(null, err.statusCode));
+            return res.send(resUtil.genRes(null, err.statusCode));
         } 
             
-        res.send(resUtil.generateRes(rows, config.statusCode.STATUS_OK));
+        res.send(resUtil.genRes(rows, config.statusCode.STATUS_OK));
     });
 };
 
@@ -454,7 +454,7 @@ exports.allocation = function (req, res, next) {
         check(userId).notEmpty();
         check(deptId).notEmpty();
     } catch (e) {
-        return res.send(resUtil.generateRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
+        return res.send(resUtil.genRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
     }
 
     faId   = sanitize(sanitize(faId).trim()).xss();
@@ -490,11 +490,11 @@ exports.allocation = function (req, res, next) {
     });
 
     ep.once("completed", function () {
-        res.send(resUtil.generateRes(null, config.statusCode.STATUS_OK));
+        res.send(resUtil.genRes(null, config.statusCode.STATUS_OK));
     });
 
     ep.fail(function(err) {
-        res.send(resUtil.generateRes(null, err.statusCode));
+        res.send(resUtil.genRes(null, err.statusCode));
     });
 };
 
@@ -513,20 +513,20 @@ exports.checkExistence = function (req, res, next) {
     try {
         check(faId).notEmpty();
     } catch (e) {
-        return res.send(resUtil.generateRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
+        return res.send(resUtil.genRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
     }
 
     faId = sanitize(sanitize(faId).trim()).xss();
 
     FixedAsset.checkFixedAssetByfaID(faId, function (err, hasFA) {
         if (err) {
-            return res.send(resUtil.generateRes(null, err.statusCode));
+            return res.send(resUtil.genRes(null, err.statusCode));
         }
 
         if (hasFA) {
-            return res.send(resUtil.generateRes(1, config.statusCode.STATUS_OK));
+            return res.send(resUtil.genRes(1, config.statusCode.STATUS_OK));
         } else {
-            return res.send(resUtil.generateRes(0, config.statusCode.STATUS_OK));
+            return res.send(resUtil.genRes(0, config.statusCode.STATUS_OK));
         }
     });
 };
@@ -567,7 +567,7 @@ exports.printService = function (req, res, next) {
     var ep = EventProxy.create();
     if (timefrom.length !== 0) {
         if (timeto.length === 0) {
-            return res.send(resUtil.generateRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
+            return res.send(resUtil.genRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
         }
 
         timefrom = parseFloat(timefrom);
@@ -604,7 +604,7 @@ exports.printService = function (req, res, next) {
 
 
     ep.fail(function (err) {
-        return res.send(resUtil.generateRes(null, err.statusCode));
+        return res.send(resUtil.genRes(null, err.statusCode));
     });
 };
 
@@ -669,7 +669,7 @@ exports.create = function (req, res, next) {
 
     //error handler
     ep.fail(function (err) {
-        res.send(resUtil.generateRes(null, err.statusCode));
+        res.send(resUtil.genRes(null, err.statusCode));
     });
     
     
@@ -725,7 +725,7 @@ exports.idleFixedAsset = function (req, res, next) {
         check(deptId).notEmpty();
         sanitize(sanitize(deptId).trim()).xss();
     } catch (e) {
-        return res.send(resUtil.generateRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
+        return res.send(resUtil.genRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
     }
 
     var ep = EventProxy.create();
@@ -757,12 +757,12 @@ exports.idleFixedAsset = function (req, res, next) {
         data.total      = idelFACount;
         data.idelFAList = idelFAList;
 
-        return res.send(resUtil.generateRes(data, config.statusCode.STATUS_OK));
+        return res.send(resUtil.genRes(data, config.statusCode.STATUS_OK));
     });
 
 
     ep.fail(function (err) {
-        return res.send(resUtil.generateRes(null, err.statusCode));
+        return res.send(resUtil.genRes(null, err.statusCode));
     });
 };
 
@@ -789,7 +789,7 @@ exports.importFA = function (req, res, next) {
             throw new InvalidParamError();
         }
     } catch (e) {
-        return res.send(resUtil.generateRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
+        return res.send(resUtil.genRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
     }
 
     var xlsxPath = path.resolve(__dirname, "../uploads/", fileName);
@@ -828,13 +828,13 @@ exports.importFA = function (req, res, next) {
         excelData.shift();
         FixedAsset.importFixedAssets(companyId, excelData, function () {
             fs.unlinkSync(xlsxPath);
-            return res.send(resUtil.generateRes(null, config.statusCode.STATUS_OK));
+            return res.send(resUtil.genRes(null, config.statusCode.STATUS_OK));
         });
     });
 
     ep.fail(function (err) {
         fs.unlinkSync(xlsxPath);
-        return res.send(resUtil.generateRes(null, err.statusCode));
+        return res.send(resUtil.genRes(null, err.statusCode));
     });
 };
 
@@ -858,7 +858,7 @@ exports.handleQrcode = function (req, res, next) {
     });
 
     ep.fail(function (err) {
-        res.send(resUtil.generateRes(null, err.statusCode));
+        res.send(resUtil.genRes(null, err.statusCode));
     });
 
     ep.once("completed1", function (tem) {
@@ -919,7 +919,7 @@ exports.exportExcel = function (req, res, next) {
     try {
         check(companyId).notEmpty();
     } catch (e) {
-        return res.send(resUtil.generateRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
+        return res.send(resUtil.genRes(null, config.statusCode.STATUS_INVAILD_PARAMS));
     }
     var ep = EventProxy.create();
 
@@ -1021,10 +1021,10 @@ exports.conditionInfo = function (req, res, next) {
 
     FixedAsset.getFixedAssetConditions(function (err, result) {
         if (err || !result) {
-            return res.send(resUtil.generateRes(null, err.statusCode));
+            return res.send(resUtil.genRes(null, err.statusCode));
         }
 
-        res.send(resUtil.generateRes(result, config.statusCode.STATUS_OK));
+        res.send(resUtil.genRes(result, config.statusCode.STATUS_OK));
     });
 
 };
@@ -1045,10 +1045,10 @@ exports.retrieve = function (req, res, next) {
 
     FixedAsset.getFixedAssetListWithConditions(req.body, function (err, result) {
         if (err) {
-            return res.send(resUtil.generateRes(null, err.statusCode));
+            return res.send(resUtil.genRes(null, err.statusCode));
         }
 
-        res.send(resUtil.generateRes(result, config.statusCode.STATUS_OK));
+        res.send(resUtil.genRes(result, config.statusCode.STATUS_OK));
     });
 };
 
@@ -1060,9 +1060,9 @@ exports.getUserIdByUserName = function (req, res, next) {
     // }
     FixedAsset.getUserIdByUserName(userName,function (err, result) {
         if(err){
-            return res.send(resUtil.generateRes(null, err.statusCode));
+            return res.send(resUtil.genRes(null, err.statusCode));
         }
 
-        res.send(resUtil.generateRes(result, config.statusCode.STATUS_OK));
+        res.send(resUtil.genRes(result, config.statusCode.STATUS_OK));
     });
 };
