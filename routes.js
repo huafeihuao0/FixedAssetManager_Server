@@ -47,27 +47,29 @@ var stockOutController = require("./controllers/stockOutController");
 var inventoryController = require("./controllers/inventoryController");
 var limitationController = require("./controllers/limitationController");
 
-module.exports = function (app)
+/**
+* 映射路由
+**/
+function mapRoutes(app)
 {
-
     /************************************************************************/
     /*                Resful: URI Represent a Resource!!!                   */
     /************************************************************************/
 
     /*建立固定资产页面路由*/
-    setupFixAssetsPageRoutes();
+    mSetupFixAssetsPageRoutes();
     /*建立固定资产API路由*/
-    setupFixAssetsAPIRoutes();
+    mSetupFixAssetsAPIRoutes();
 
     /*gift页面路由*/
-    setupGiftPageRoutes();
+    mSetupGiftPageRoutes();
     app.get("*", othersController.fourofour);
 };
 
 /***
  *建立固定资产页面路由
  ***/
-function setupFixAssetsPageRoutes()
+function mSetupFixAssetsPageRoutes()
 {
     //html page
     // app.get("/", others.index);
@@ -93,7 +95,7 @@ function setupFixAssetsPageRoutes()
 /***
  *建立固定资产API路由
  ***/
-function setupFixAssetsAPIRoutes()
+function mSetupFixAssetsAPIRoutes()
 {
     //apis
     app.get("/user/:userId", userController.getUserById);
@@ -125,7 +127,7 @@ function setupFixAssetsAPIRoutes()
 /***
  *gift页面路由
  ***/
-function setupGiftPageRoutes()
+function mSetupGiftPageRoutes()
 {
     //gift html page
     app.get("/gift", giftController.gift);
@@ -174,3 +176,5 @@ function setupGiftPageRoutes()
     app.get("/manualinputdepts", departmentController.allManualInputDepts);
     app.get("/suppliers", stockInController.suppliers);
 }
+
+module.exports = mapRoutes;
