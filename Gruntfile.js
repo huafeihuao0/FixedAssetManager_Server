@@ -84,7 +84,7 @@ module.exports = function (grunt) {
                             "public/libs/js/create.js",
                             "public/libs/js/loginController.js",
                             "public/libs/js/print.js",
-                            "public/libs/js/manage.js",
+                            "public/libs/js/manageHandler.js",
                             "public/libs/js/batchCreate.js"
             ]
         },

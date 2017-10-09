@@ -77,7 +77,7 @@ function mSetupFixAssetsPageRoutes()
     //html page
     // app.get("/", others.index);
     app.get("/",authMids.checkLoginedMid);
-    app.get("/", fixedAssetController.manage);
+    app.get("/", fixedAssetController.manageHandler);
 
     app.get("/qrtest", fixedAssetController.handleQrcode);
     app.get("/apis", othersController.apis);
@@ -86,7 +86,7 @@ function mSetupFixAssetsPageRoutes()
     app.get("/signout", logoutController.signOut);
     app.get("/fixedasset/printservice/:pageIndex/:timefrom?/:timeto?",authMids.checkLoginedMid);
     app.get("/fixedasset/printservice/:pageIndex/:timefrom?/:timeto?", fixedAssetController.printService);
-    app.get("/fixedasset/manage", fixedAssetController.manage);
+    app.get("/fixedasset/manageHandler", fixedAssetController.manageHandler);
     app.get("/404", othersController.fourofour);
     app.get("/captchaImg", loginController.captchaImg);
     app.get("/fixedasset/:faId/edit",authMids.checkLoginedMid);
@@ -142,7 +142,7 @@ function mSetupGiftPageRoutes()
 {
     //gift html page
     app.get("/gift", giftController.gift);
-    app.get("/gift/manage", giftController.giftManage);
+    app.get("/gift/manageHandler", giftController.giftManage);
     app.get("/gift/storage", giftController.storage);
     app.get("/gift/other", giftController.other);
 

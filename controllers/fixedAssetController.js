@@ -711,13 +711,13 @@ exports.printService = function (req, res, next)
 };
 
 /**
- * render fixed asset manager page
+ *管理页面控制器
  * @param  {object}   req  the instance of request
  * @param  {object}   res  the instance of response
  * @param  {Function} next the next handler
  * @return {null}
  */
-exports.manage = function (req, res, next)
+exports.manageHandler = function (req, res, next)
 {
     debugCtrller("controllers/fixedasset->manager");
     res.render('subviews/manage.html');

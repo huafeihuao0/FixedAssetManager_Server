@@ -223,18 +223,18 @@ exports.gift = function (req, res, next) {
 };
 
 /**
- * manage page of gifts
+ * manageHandler page of gifts
  * @param  {Object}   req  the instance of request
  * @param  {Object}   res  the instance of response
  * @param  {Function} next the next handler
  * @return {null}   
  */
 exports.giftManage = function(req, res, next) {
-    debugCtrller("controllers/gift/manage");
+    debugCtrller("controllers/gift/manageHandler");
     if (!req.session || !req.session.user) {
         return res.redirect("/login");
     }
-    res.render('gift/subviews/manage.html');
+    res.render('gift/subviews/manageHandler.html');
 };
 
 /**

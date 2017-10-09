@@ -1,6 +1,6 @@
 function manageLoad() {
   $("li[class='active']").removeAttr("class");
-  $("#manage").addClass("active");
+  $("#manageHandler").addClass("active");
   $("#assetDetails").hide();
   $("#assetEvent").hide();
   $("#underName").hide();
