@@ -23,7 +23,7 @@
  */
 
 var mysqlClient = require("../libs/mysqlUtil");
-var util        = require("../libs/util");
+var util        = require("../libs/globalUtils");
 
 /**
  * get all payment type list

@@ -24,7 +24,7 @@
 
 var EventProxy = require("eventproxy");
 var resUtil    = require("../libs/resUtil");
-var util       = require("../libs/util");
+var util       = require("../libs/globalUtils");
 var config     = require("../config").initConfig();
 var Gift       = require("../proxy/gift");
 var check      = require("validator").check;

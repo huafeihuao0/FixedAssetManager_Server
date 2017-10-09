@@ -23,7 +23,7 @@
  */
 
 var mysqlClient = require("../libs/mysqlUtil");
-var util        = require("../libs/util");
+var util        = require("../libs/globalUtils");
 var EventProxy  = require("eventproxy");
 var StockIn     = require("./stockIn");
 var StockOut    = require("./stockOut");

@@ -27,7 +27,7 @@ var xlsx = require("node-xlsx");
 var mailService = require("./mail");//邮件服务
 var Limitation = require("../proxy/limitation");//限制
 var exec = require("child_process").exec;//执行子进程
-var util = require("../libs/util");
+var util = require("../libs/globalUtils");
 var pathParser = require("path");
 var config = require("../config").initConfig();
 
